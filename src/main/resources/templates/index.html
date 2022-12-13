@@ -1,10 +1,48 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Recipe Home</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-<h1>My Recipes!</h1>
+<!--/@thymesVar id="recipe" type="guru.springframework.model.Recipe"*/-->
+<h1 th:text="'List of Recipes'">List of Recipes...</h1>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Description</th>
+        <th>Preparation time</th>
+        <th>Cooking time</th>
+        <th>Servings</th>
+        <th>Source</th>
+        <th>Url</th>
+        <th>Directions</th>
+        <th>Ingredients</th>
+        <th>Image</th>
+        <th>Notes</th>
+        <th>Difficulty</th>
+        <th>Categories</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="recipe : ${recipes}">
+        <td th:text="${recipe?.id}">1</td>
+        <td th:text="${recipe?.description}">some Description</td>
+        <td th:text="${recipe?.prepTime}">some preparation time</td>
+        <td th:text="${recipe?.cookTime}">some cook time</td>
+        <td th:text="${recipe?.servings}">servings</td>
+        <td th:text="${recipe?.source}">source</td>
+        <td th:text="${recipe?.url}">url</td>
+        <td th:text="${recipe?.directions}">directions</td>
+        <td th:text="${recipe?.ingredients}">ingredients</td>
+        <td th:text="${recipe?.image}">image</td>
+        <td th:text="${recipe?.notes}">notes</td>
+        <td th:text="${recipe?.difficulty}">difficulty</td>
+        <td th:text="${recipe?.categories}">categories</td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
