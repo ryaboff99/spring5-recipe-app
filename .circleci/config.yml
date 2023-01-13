@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:8-jdk
-    working_directory: ~/repo
+    working_directory: ~/spring5-recipe-app
     environment:
       - MAVEN_OPTS: -Xmx3200m
     steps:
