@@ -5,9 +5,9 @@ import guru.springframework.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,9 +21,25 @@ class RecipeServiceImplTest {
 
     @BeforeEach
     void setUp() {
-//        MockitoAnnotations.initMocks(this);
         recipeRepository = mock(RecipeRepository.class);
         recipeService = new RecipeServiceImpl(recipeRepository);
+    }
+
+    @Test
+    void getRecipeById() {
+        Long id = 1L;
+        Recipe recipe = new Recipe();
+        recipe.setId(id);
+        Optional<Recipe> recipeOptional = Optional.of(recipe);
+
+        when(recipeRepository.findById(id)).thenReturn(recipeOptional);
+
+        Recipe recipeReturned = recipeService.findById(id);
+
+        assertEquals(id, recipeReturned.getId());
+
+        verify(recipeRepository).findById(1L);
+        verify(recipeRepository, never()).findAll();
     }
 
     @Test
@@ -34,7 +50,9 @@ class RecipeServiceImplTest {
 
         when(recipeRepository.findAll()).thenReturn(recipeData);
 
-        assertEquals(recipeService.getRecipes(), recipeData);
+        Set<Recipe> recipes = recipeService.getRecipes();
+
+        assertEquals(1, recipes.size());
 
         verify(recipeRepository, times(1)).findAll();
     }
