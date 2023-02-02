@@ -1,80 +1,68 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Recipe Home</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-          rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"
-    th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"
+              th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}">
 
-    <script src="/webjars/jquery/3.6.3/jquery.min.js"></script>
+        <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-            crossorigin="anonymous" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"></script>
-</head>
-<body>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+                crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+    </head>
+    <body>
 
-<div class="container-fluid" style="margin-top: 20px">
-    <div class="row">
-        <div class="col-md-13 col-md-offset-3">
-            <div class="panel panel-primary">
+    <div class="container-fluid" style="margin-top: 20px">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-primary">
 
-                <div class="panel-heading">
-                    <h1 class="panel-title">My Recipes!</h1>
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
-                        <table class="table table-hover ">
-                            <thead class="thead-inverse">
-                            <tr>
-                                <th>ID</th>
-                                <th>Description</th>
-                                <th>Preparation time</th>
-                                <th>Cooking time</th>
-                                <th>Servings</th>
-                                <th>Source</th>
-                                <th>Url</th>
-                                <th>Directions</th>
-                                <th>Ingredients</th>
-                                <th>Image</th>
-                                <th>Notes</th>
-                                <th>Difficulty</th>
-                                <th>Categories</th>
-                            </tr>
-                            </thead>
-                            <tr th:remove="all">
-                                <td th:text="${recipe.id}">123</td>
-                                <td th:text="${recipe.description}">Tasty Goodnees 1</td>
-                            </tr>
-                            <tr th:remove="all">
-                                <td th:text="${recipe.id}">12333</td>
-                                <td th:text="${recipe.description}">Tasty Goodnees 2</td>
-                            </tr>
-                            <tr th:each="recipe : ${recipes}">
-                                <td th:text="${recipe?.id}">334</td>
-                                <td th:text="${recipe?.description}">Tasty Goodnees 3</td>
-                                <td th:text="${recipe?.prepTime}">some preparation time</td>
-                                <td th:text="${recipe?.cookTime}">some cook time</td>
-                                <td th:text="${recipe?.servings}">servings</td>
-                                <td th:text="${recipe?.source}">source</td>
-                                <td th:text="${recipe?.url}">url</td>
-                                <td th:text="${recipe?.directions}">directions</td>
-                                <td th:text="${recipe?.ingredients}">ingredients</td>
-                                <td th:text="${recipe?.image}">image</td>
-                                <td th:text="${recipe?.notes}">notes</td>
-                                <td th:text="${recipe?.difficulty}">difficulty</td>
-                                <td th:text="${recipe?.categories}">categories</td>
-                            </tr>
-                        </table>
+                    <div class="panel-heading">
+                        <!--/*@thymesVar id="recipe" type="guru.springframework.domain.Recipe"*/-->
+                        <h1 class="panel-title">My Recipes!</h1>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
+                            <table class="table table-hover ">
+                                <thead class="thead-inverse">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Description</th>
+    <!--                                tag that will be replaced in runtime by a relative URL of 'recipe/show-->
+                                    <th>View</th>
+                                </tr>
+                                </thead>
+                                <tr th:remove="all">
+                                    <td>123</td>
+                                    <td>Tasty Goodnees 1</td>
+                                    <td><a href="#">View</a></td>
+                                </tr>
+                                <tr th:remove="all">
+                                    <td>12333</td>
+                                    <td>Tasty Goodnees 2</td>
+                                    <td><a href="#">View</a></td>
+                                </tr>
+                                <tr th:each="recipe : ${recipes}">
+                                    <!--below (commented) is a hint to intellij. So the "recipe" is telling intellij the type of it (so intellij can detect what the variable type is and do autocomplete).-->
+                                    <!--/*@thymesVar id="recipe" type="guru.springframework.domain.Recipe"*/-->
+                                    <td th:text="${recipe.id}">334</td>
+                                    <td th:text="${recipe.description}">Tasty Goodnees 3</td>
+                                    <!--this th:href (below) it is going to replace "View" by a relative (відносний) URL of 'recipe/show' and pass it in the recipe ID-->
+                                    <td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-
-</body>
-</html>
+    </body>
+    </html>
