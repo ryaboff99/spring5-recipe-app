@@ -36,6 +36,7 @@
                                     <th>Description</th>
     <!--                                tag that will be replaced in runtime by a relative URL of 'recipe/show-->
                                     <th>View</th>
+                                    <th>Update</th>
                                 </tr>
                                 </thead>
                                 <tr th:remove="all">
@@ -54,7 +55,8 @@
                                     <td th:text="${recipe.id}">334</td>
                                     <td th:text="${recipe.description}">Tasty Goodnees 3</td>
                                     <!--this th:href (below) it is going to replace "View" by a relative (відносний) URL of 'recipe/show' and pass it in the recipe ID-->
-                                    <td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a></td>
+                                    <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/show'}">View</a></td>
+                                    <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/update'}">Update</a></td>
                                 </tr>
                             </table>
                         </div>
