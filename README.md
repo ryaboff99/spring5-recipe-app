@@ -18,3 +18,5 @@ This repository is for an example application built in my Spring Framework 5 - B
 You can learn about my Spring Framework 5 Online course [here.](https://go.springframework.guru/spring-framework-5-online-course)
 
 Simple change to trigger Circle CI
+
+Images for uploading are located at resources/static/images
