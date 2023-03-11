@@ -62,27 +62,13 @@ public class RecipeController {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
-    public ModelAndView handleNotFound(Exception exception) {   // pass NotFoundException inside the method (Spring will automatically give us that
+    public ModelAndView handleNotFound(Exception exception) {
         log.error("Handling Not Found Exception");
-        log.error(exception.getMessage());  // Log error
-
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.setViewName("404error");
-        modelAndView.addObject("exception", exception);   // add NotFoundException to the View
-
-        return modelAndView;
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public ModelAndView handleNumberFormat(Exception exception) {
-        log.error("Handling Number Format Exception");
         log.error(exception.getMessage());
 
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.setViewName("400error");
+        modelAndView.setViewName("404error");
         modelAndView.addObject("exception", exception);
 
         return modelAndView;
