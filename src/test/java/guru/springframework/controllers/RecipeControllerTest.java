@@ -94,9 +94,25 @@ public class RecipeControllerTest {
 
         mockMvc.perform(post("/recipe")
                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", "")
+                        .param("description", "some string")
+                        .param("directions", "some directions")
                 )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/2/show/"));
+    }
+
+    @Test
+    public void postNewRecipeFormValidationFail() throws Exception {
+        mockMvc.perform(post("/recipe") // call Recipe Controller saveOrUpdate() method that takes updated RecipeCommand from View Form and persist it in DB
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED) // mock POST request method with blank 'directions, and 'description' variables that will trigger validation errors and
+                        .param("id", "")
+                        .param("cookTime", "3000")
+                        .param("url", "sdfs://www.simplyrecipes.com/recipes/perfect_guacamole/")
+                )
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("recipe"))
+                .andExpect(view().name("recipe/recipeform"));   // expect back Form for update, coz invalid variables defined
     }
 
     @Test
