@@ -133,6 +133,19 @@ public class IngredientControllerTest {
     }
 
     @Test
+    public void saveOrUpdateIngredientValidationFail() throws Exception {
+        mockMvc.perform(post("/recipe/2/ingredient")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", "")
+                        .param("description", "")
+                        .param("amount", "999")
+                )
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("ingredient"))
+                .andExpect(view().name("recipe/ingredient/ingredientform"));
+    }
+
+    @Test
     public void deleteIngredient() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/2/ingredient/2/delete"))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
