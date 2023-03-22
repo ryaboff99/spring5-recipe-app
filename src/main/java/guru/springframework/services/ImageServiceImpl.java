@@ -1,6 +1,7 @@
 package guru.springframework.services;
 
 import guru.springframework.domain.Recipe;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,8 @@ public class ImageServiceImpl implements ImageService {
     @Transactional
     public void saveImageFile(Long recipeId, MultipartFile file) {
         try {
-            Recipe recipe = recipeRepository.findById(recipeId).get();
+            Recipe recipe = recipeRepository.findById(recipeId)
+                    .orElseThrow(() -> new NotFoundException("Recipe Not Found! For ID value: " + recipeId));
 
             Byte[] byteObjects = new Byte[file.getBytes().length];
 
