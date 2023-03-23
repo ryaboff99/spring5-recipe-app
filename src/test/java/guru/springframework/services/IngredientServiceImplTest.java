@@ -10,16 +10,21 @@ import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+@DisplayName("Ingredient Service Implementation tests")
 class IngredientServiceImplTest {
 
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
@@ -33,7 +38,6 @@ class IngredientServiceImplTest {
 
     IngredientService ingredientService;
 
-    // init converters
     public IngredientServiceImplTest() {
         this.ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
         this.ingredientCommandToIngredient = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
@@ -47,12 +51,9 @@ class IngredientServiceImplTest {
                 recipeRepository, unitOfMeasureRepository);
     }
 
-//    @Test
-//    void findByRecipeIdAndIngredientId() throws Exception {
-//    }
-
     @Test
-    void findByRecipeIdAndIngredientIdHappyPath() throws Exception {
+    @DisplayName("Finds Ingredient by id")
+    void findsIngredientById() throws Exception {
         Recipe recipe = new Recipe();
         recipe.setId(1L);
 
@@ -81,8 +82,8 @@ class IngredientServiceImplTest {
 
 
     @Test
-    public void saveIngredientCommand() throws Exception {
-        //given
+    @DisplayName("IngredientCommand is saved")
+    public void ingredientCommandIsSaved() throws Exception {
         IngredientCommand command = new IngredientCommand();
         command.setId(3L);
         command.setRecipeId(2L);
@@ -96,18 +97,16 @@ class IngredientServiceImplTest {
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
         when(recipeRepository.save(any())).thenReturn(savedRecipe);
 
-        //when
         IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command);
 
-        //then
         assertEquals(Long.valueOf(3L), savedCommand.getId());
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, times(1)).save(any(Recipe.class));
     }
 
     @Test
-    public void deleteIngredient() throws Exception {
-        // given
+    @DisplayName("IngredientCommand is deleted")
+    public void ingredientCommandIsDeleted() throws Exception {
         Recipe recipe = new Recipe();
 
         Ingredient ingredientToDelete = new Ingredient();
@@ -119,10 +118,8 @@ class IngredientServiceImplTest {
 
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
 
-        // when
         ingredientService.deleteIngredientById(1L, 2L);
 
-        // then
         assertEquals(0, recipe.getIngredients().size());
 
         verify(recipeRepository, times(1)).findById(anyLong());

@@ -3,10 +3,14 @@ package guru.springframework.converters;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.domain.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
+@DisplayName("Recipe to RecipeCommand conversion tests")
 class RecipeToRecipeCommandTest {
 
     public static final Long RECIPE_ID = 1L;
@@ -34,17 +38,20 @@ class RecipeToRecipeCommandTest {
     }
 
     @Test
-    public void testNullObject() throws Exception {
+    @DisplayName("Convert null Recipe to null RecipeCommand")
+    public void convertNullRecipeToNullRecipeCommand() throws Exception {
         assertNull(converter.convert(null));
     }
 
     @Test
-    public void testEmptyObject() throws Exception {
+    @DisplayName("Convert empty Recipe to empty RecipeCommand")
+    public void convertEmptyRecipeToEmptyRecipeCommand() throws Exception {
         assertNotNull(converter.convert(new Recipe()));
     }
 
     @Test
-    public void convert() throws Exception {
+    @DisplayName("Convert Recipe to RecipeCommand")
+    public void convertRecipeToRecipeCommand() throws Exception {
         //given
         Recipe recipe = new Recipe();
         recipe.setId(RECIPE_ID);

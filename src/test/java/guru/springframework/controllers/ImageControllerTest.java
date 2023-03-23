@@ -3,7 +3,9 @@ package guru.springframework.controllers;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.services.ImageService;
 import guru.springframework.services.RecipeService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -12,7 +14,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.times;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+@DisplayName("Image Controller Tests")
 public class ImageControllerTest {
 
     @Mock
@@ -48,14 +50,13 @@ public class ImageControllerTest {
     }
 
     @Test
-    public void getImageForm() throws Exception {
-        // given
+    @DisplayName("Upload Image Form displayed")
+    public void uploadImageFormDisplayed() throws Exception {
         RecipeCommand command = new RecipeCommand();
         command.setId(1L);
 
         when(recipeService.findCommandById(anyLong())).thenReturn(command);
 
-        // when
         mockMvc.perform(get("/recipe/1/image"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("recipe"));
@@ -64,7 +65,8 @@ public class ImageControllerTest {
     }
 
     @Test
-    public void handleImagePost() throws Exception {
+    @DisplayName("Image from Upload Form persisted")
+    public void imageFromUploadFormPersisted() throws Exception {
         MockMultipartFile multipartFile =
                 new MockMultipartFile("imagefile", "testing.txt", "text/plain",
                         "Spring Framework Guru".getBytes());
@@ -77,8 +79,8 @@ public class ImageControllerTest {
     }
 
     @Test
-    public void renderImageFromDB() throws Exception {
-        // given
+    @DisplayName("Recipe Image displayed")
+    public void recipeImageDisplayed() throws Exception {
         RecipeCommand command = new RecipeCommand();
         command.setId(1L);
 
@@ -95,18 +97,18 @@ public class ImageControllerTest {
 
         when(recipeService.findCommandById(anyLong())).thenReturn(command);
 
-        // when
         MockHttpServletResponse response = mockMvc.perform(get("/recipe/1/recipeimage"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse();
 
         byte[] responseBytes = response.getContentAsByteArray();
 
-        assertEquals(s.getBytes().length, responseBytes.length);
+        Assertions.assertEquals(s.getBytes().length, responseBytes.length);
     }
 
     @Test
-    public void getImageNumberFormatException() throws Exception {
+    @DisplayName("Error 400 is displayed if pass incorrect type to Recipe id")
+    public void error400IsDisplayedIfPassIncorrectTypeToRecipeId() throws Exception {
         mockMvc.perform(get("/recipe/abc/recipeimage"))
                 .andExpect(status().isBadRequest())
                 .andExpect(view().name("400error"))

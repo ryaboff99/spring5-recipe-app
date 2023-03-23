@@ -3,10 +3,14 @@ package guru.springframework.converters;
 import guru.springframework.commands.CategoryCommand;
 import guru.springframework.domain.Category;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
+@DisplayName("Category to CategoryCommand conversion tests")
 class CategoryToCategoryCommandTest {
 
     public static final Long ID_VALUE = 1L;
@@ -19,16 +23,19 @@ class CategoryToCategoryCommandTest {
     }
 
     @Test
-    public void testNullObject() throws Exception {
+    @DisplayName("Convert null Category to null CategoryCommand")
+    public void convertNullCategoryToNullCategoryCommand() throws Exception {
         assertNull(converter.convert(null));
     }
 
     @Test
-    public void testEmptyObject() throws Exception {
+    @DisplayName("Convert empty Category to empty CategoryCommand")
+    public void convertEmptyCategoryToEmptyCategoryCommand() throws Exception {
         assertNotNull(converter.convert(new Category()));
     }
 
     @Test
+    @DisplayName("Convert Category to CategoryCommand")
     void convert() throws Exception {
         //given
         Category category = new Category();

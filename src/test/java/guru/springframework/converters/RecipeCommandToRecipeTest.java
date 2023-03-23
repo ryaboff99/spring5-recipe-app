@@ -7,10 +7,14 @@ import guru.springframework.commands.RecipeCommand;
 import guru.springframework.domain.Difficulty;
 import guru.springframework.domain.Recipe;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
+@DisplayName("RecipeCommand to Recipe conversion tests")
 class RecipeCommandToRecipeTest {
 
     public static final Long RECIPE_ID = 1L;
@@ -38,17 +42,20 @@ class RecipeCommandToRecipeTest {
     }
 
     @Test
-    public void testNullObject() throws Exception {
+    @DisplayName("Convert null RecipeCommand to null Recipe")
+    public void convertNullRecipeCommandToNullRecipe() throws Exception {
         assertNull(converter.convert(null));
     }
 
     @Test
-    public void testEmptyObject() throws Exception {
+    @DisplayName("Convert empty RecipeCommand to empty Recipe")
+    public void convertEmptyRecipeCommandToEmptyRecipe() throws Exception {
         assertNotNull(converter.convert(new RecipeCommand()));
     }
 
     @Test
-    public void convert() throws Exception {
+    @DisplayName("Convert RecipeCommand to Recipe")
+    public void convertRecipeCommandToRecipe() throws Exception {
         //given
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId(RECIPE_ID);
@@ -87,6 +94,7 @@ class RecipeCommandToRecipeTest {
         //when
         Recipe recipe  = converter.convert(recipeCommand);
 
+        //then
         assertNotNull(recipe);
         assertEquals(RECIPE_ID, recipe.getId());
         assertEquals(COOK_TIME, recipe.getCookTime());

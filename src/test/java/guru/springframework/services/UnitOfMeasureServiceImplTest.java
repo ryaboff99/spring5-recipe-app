@@ -5,6 +5,7 @@ import guru.springframework.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import guru.springframework.domain.UnitOfMeasure;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -13,8 +14,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+@DisplayName("Unit Of Measure Service Implementation tests")
 class UnitOfMeasureServiceImplTest {
 
     UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand = new UnitOfMeasureToUnitOfMeasureCommand();
@@ -31,8 +35,8 @@ class UnitOfMeasureServiceImplTest {
     }
 
     @Test
-    void listAllUoms() throws Exception {
-        // given
+    @DisplayName("Get UnitOfMeasures Set")
+    void getUnitOfMeasuresSet() throws Exception {
         Set<UnitOfMeasure> initialUomSet = new HashSet<>();
         UnitOfMeasure uom1 = new UnitOfMeasure();
         uom1.setId(1L);
@@ -44,10 +48,8 @@ class UnitOfMeasureServiceImplTest {
 
         when(unitOfMeasureRepository.findAll()).thenReturn(initialUomSet);
 
-        // when
         Set<UnitOfMeasureCommand> commands = service.listAllUoms();
 
-        // then
         assertEquals(2, commands.size());
         verify(unitOfMeasureRepository, times(1)).findAll();
     }

@@ -6,6 +6,7 @@ import guru.springframework.domain.Recipe;
 import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -23,6 +24,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@DisplayName("Recipe Service Implementation tests")
 class RecipeServiceImplTest {
 
     RecipeService recipeService;
@@ -42,7 +44,8 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    void getRecipeById() throws Exception {
+    @DisplayName("Recipe is found by id")
+    void recipeIsFoundById() throws Exception {
         Long id = 1L;
         Recipe recipe = new Recipe();
         recipe.setId(id);
@@ -59,23 +62,23 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    public void getRecipeByIdTestNotFound() throws Exception {
+    @DisplayName("NotFoundException is thrown when Recipe is not found by id")
+    public void notFoundExceptionIsThrownWhenRecipeIsNotFoundById() throws Exception {
 
         Optional<Recipe> recipeOptional = Optional.empty();
 
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
 
-        // when
         NotFoundException notFoundException = assertThrows(
                 NotFoundException.class, () -> recipeService.findCommandById(1L),
                 "Expected exception to throw an error. But it didn't");
 
-        // then
         assertTrue(notFoundException.getMessage().contains("Recipe Not Found!"));
     }
 
     @Test
-    void getRecipes() {
+    @DisplayName("Get Recipes Set")
+    void getRecipesSet() {
         Recipe recipe = new Recipe();
         Set<Recipe> recipeData = new HashSet<>();
         recipeData.add(recipe);
@@ -91,7 +94,8 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    public void deleteById() throws Exception {
+    @DisplayName("Recipe is deleted by id")
+    public void recipeIsDeletedById() throws Exception {
         Long idToDelete = 2L;
         recipeService.deleteById(idToDelete);
 

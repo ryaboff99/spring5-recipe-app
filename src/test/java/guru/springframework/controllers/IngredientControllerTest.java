@@ -7,6 +7,7 @@ import guru.springframework.services.IngredientService;
 import guru.springframework.services.RecipeService;
 import guru.springframework.services.UnitOfMeasureService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -19,12 +20,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.HashSet;
 
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+@DisplayName("Ingredient Controller Tests")
 public class IngredientControllerTest {
 
     @Mock
@@ -50,7 +56,8 @@ public class IngredientControllerTest {
     }
 
     @Test
-    void listIngredients() throws Exception {
+    @DisplayName("Recipes ingredients List is displayed")
+    void recipeIngredientsListIsDisplayed() throws Exception {
         RecipeCommand recipeCommand = new RecipeCommand();
 
         when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
@@ -64,7 +71,8 @@ public class IngredientControllerTest {
     }
 
     @Test
-    public void showIngredient() throws Exception {
+    @DisplayName("Recipes Ingredient is displayed by id")
+    public void recipesIngredientIsDisplayedById() throws Exception {
         IngredientCommand ingredientCommand = new IngredientCommand();
 
         when(ingredientService.findByRecipeIdAndIngredientId(anyLong(), anyLong())).thenReturn(ingredientCommand);
@@ -76,7 +84,8 @@ public class IngredientControllerTest {
     }
 
     @Test
-    public void showIngredientNotFound() throws Exception {
+    @DisplayName("Error 404 is displayed if Ingredient by id not found")
+    public void error404IsDisplayedIfIngredientByIdNotFound() throws Exception {
         when(ingredientService.findByRecipeIdAndIngredientId(anyLong(), anyLong())).thenThrow(NotFoundException.class);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/ingredient/2/show"))
@@ -86,7 +95,8 @@ public class IngredientControllerTest {
     }
 
     @Test
-    public void newIngredientForm() throws Exception {
+    @DisplayName("Create new Ingredient Form is displayed")
+    public void createNewIngredientFormIsDisplayed() throws Exception {
         // given
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId(1L);
@@ -107,7 +117,8 @@ public class IngredientControllerTest {
 
     // new ingredient not found
     @Test
-    public void newIngredientNotFound() throws Exception {
+    @DisplayName("Error 404 is displayed if Recipe by id not found")
+    public void error404IsDisplayedIfRecipeByIdNotFound() throws Exception {
         when(recipeService.findCommandById(anyLong())).thenThrow(NotFoundException.class);
 
         mockMvc.perform(get("/recipe/1/ingredient/new"))
@@ -117,7 +128,8 @@ public class IngredientControllerTest {
     }
 
     @Test
-    public void updateIngredientForm() throws Exception {
+    @DisplayName("Update Ingredient Form is displayed")
+    public void updateIngredientFormIsDisplayed() throws Exception {
         //given
         IngredientCommand ingredientCommand = new IngredientCommand();
 
@@ -134,7 +146,8 @@ public class IngredientControllerTest {
     }
 
     @Test
-    public void saveOrUpdate() throws Exception {
+    @DisplayName("Ingredient from Ingredient Form persisted")
+    public void ingredientFromIngredientFormPersisted() throws Exception {
         //given
         IngredientCommand command = new IngredientCommand();
         command.setId(3L);
@@ -151,11 +164,11 @@ public class IngredientControllerTest {
                 )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/ingredient/3/show"));
-
     }
 
     @Test
-    public void saveOrUpdateIngredientValidationFail() throws Exception {
+    @DisplayName("Ingredient validation errors are shown")
+    public void ingredientValidationErrorsAreShown() throws Exception {
         mockMvc.perform(post("/recipe/2/ingredient")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("id", "")
@@ -168,7 +181,8 @@ public class IngredientControllerTest {
     }
 
     @Test
-    public void deleteIngredient() throws Exception {
+    @DisplayName("Ingredient is deleted by id")
+    public void ingredientIsDeletedById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/2/ingredient/2/delete"))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/2/ingredients"));

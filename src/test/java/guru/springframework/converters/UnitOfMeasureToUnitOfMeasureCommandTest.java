@@ -3,10 +3,14 @@ package guru.springframework.converters;
 import guru.springframework.commands.UnitOfMeasureCommand;
 import guru.springframework.domain.UnitOfMeasure;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
+@DisplayName("UnitOfMeasure to UnitOfMeasureCommand tests")
 class UnitOfMeasureToUnitOfMeasureCommandTest {
 
     public static final String DESCRIPTION = "description";
@@ -20,17 +24,20 @@ class UnitOfMeasureToUnitOfMeasureCommandTest {
     }
 
     @Test
-    public void testNullObjectConvert() throws Exception {
+    @DisplayName("Convert null UnitOfMeasure to null UnitOfMeasureCommand")
+    public void convertNullUnitOfMeasureToNullUnitOfMeasureCommand() throws Exception {
         assertNull(converter.convert(null));
     }
 
     @Test
-    public void testEmptyObj() throws Exception {
+    @DisplayName("Convert empty UnitOfMeasure to empty UnitOfMeasureCommand")
+    public void convertEmptyUnitOfMeasureToEmptyUnitOfMeasureCommand() throws Exception {
         assertNotNull(converter.convert(new UnitOfMeasure()));
     }
 
     @Test
-    public void convert() throws Exception {
+    @DisplayName("Convert UnitOfMeasure to UnitOfMeasureCommand")
+    public void convertUnitOfMeasureToUnitOfMeasureCommand() throws Exception {
         //given
         UnitOfMeasure uom = new UnitOfMeasure();
         uom.setId(LONG_VALUE);

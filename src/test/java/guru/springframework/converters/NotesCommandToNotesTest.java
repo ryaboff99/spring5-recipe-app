@@ -3,10 +3,14 @@ package guru.springframework.converters;
 import guru.springframework.commands.NotesCommand;
 import guru.springframework.domain.Notes;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
+@DisplayName("NotesCommand to Notes conversion tests")
 class NotesCommandToNotesTest {
 
     public static final Long ID_VALUE = 1L;
@@ -19,26 +23,26 @@ class NotesCommandToNotesTest {
     }
 
     @Test
-    public void testNullParameter() throws Exception {
+    @DisplayName("Convert null NotesCommand to null Notes")
+    public void convertNullNotesCommandToNullNotes() throws Exception {
         assertNull(converter.convert(null));
     }
 
     @Test
-    public void testEmptyObject() throws Exception {
+    @DisplayName("Convert empty NotesCommand to empty Notes")
+    public void convertEmptyNotesCommandToEmptyNotes() throws Exception {
         assertNotNull(converter.convert(new NotesCommand()));
     }
 
     @Test
+    @DisplayName("Convert NotesCommand to Notes")
     public void convert() throws Exception {
-        //given
         NotesCommand notesCommand = new NotesCommand();
         notesCommand.setId(ID_VALUE);
         notesCommand.setRecipeNotes(RECIPE_NOTES);
 
-        //when
         Notes notes = converter.convert(notesCommand);
 
-        //then
         assertNotNull(notes);
         assertEquals(ID_VALUE, notes.getId());
         assertEquals(RECIPE_NOTES, notes.getRecipeNotes());
